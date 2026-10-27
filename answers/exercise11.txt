@@ -1,0 +1,43 @@
+﻿Exercise 11 - Redis CLI
+
+PowerShell> docker exec todo-backend-redis-1 redis-cli KEYS "*"
+added_todos
+
+PowerShell> docker exec todo-backend-redis-1 redis-cli GET added_todos
+1
+
+PowerShell> docker exec todo-backend-redis-1 redis-cli SET added_todos 9001
+OK
+
+PowerShell> docker exec todo-backend-redis-1 redis-cli GET added_todos
+9001
+
+PowerShell> Invoke-RestMethod -Uri 'http://localhost:3000/statistics' | ConvertTo-Json -Compress
+{"added_todos":9001}
+
+PowerShell> Invoke-RestMethod -Method Post -Uri 'http://localhost:3000/todos' -ContentType 'application/json' -Body '{"text":"Exercise 11 Redis counter check"}'
+{"text":"Exercise 11 Redis counter check","done":false,"_id":"6ae05560a25fa7a57ee91151","__v":0}
+
+PowerShell> docker exec todo-backend-redis-1 redis-cli GET added_todos
+9002
+
+PowerShell> Invoke-RestMethod -Uri 'http://localhost:3000/statistics' | ConvertTo-Json -Compress
+{"added_todos":9002}
+
+PowerShell> docker exec todo-backend-redis-1 redis-cli DEL added_todos
+1
+
+PowerShell> docker exec todo-backend-redis-1 redis-cli KEYS "*"
+(empty array)
+
+PowerShell> Invoke-RestMethod -Uri 'http://localhost:3000/statistics' | ConvertTo-Json -Compress
+{"added_todos":0}
+
+PowerShell> Invoke-RestMethod -Method Post -Uri 'http://localhost:3000/todos' -ContentType 'application/json' -Body '{"text":"Exercise 11 counter after key deletion"}'
+{"text":"Exercise 11 counter after key deletion","done":false,"_id":"6ae05567a25fa7a57ee91153","__v":0}
+
+PowerShell> docker exec todo-backend-redis-1 redis-cli GET added_todos
+1
+
+PowerShell> Invoke-RestMethod -Uri 'http://localhost:3000/statistics' | ConvertTo-Json -Compress
+{"added_todos":1}
