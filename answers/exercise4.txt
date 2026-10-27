@@ -1,0 +1,9 @@
+PS C:\Users\Student\Desktop\PART12> docker start -ai 80f62f3fbaaf
+root@80f62f3fbaaf:/# apt update
+root@80f62f3fbaaf:/# apt install -y curl
+root@80f62f3fbaaf:/# curl -sL https://deb.nodesource.com/setup_24.x | bash
+root@80f62f3fbaaf:/# apt install -y nodejs
+Setting up nodejs (24.22.1-1nodesource1) ...
+root@80f62f3fbaaf:/# node /usr/src/app/index.js
+Hello World
+root@80f62f3fbaaf:/#
