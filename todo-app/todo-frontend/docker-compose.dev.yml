@@ -1,0 +1,16 @@
+services:
+  todo-frontend:
+    build:
+      context: .
+      target: build
+    command: npm run dev -- --host 0.0.0.0
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_BACKEND_URL: http://localhost:3000
+    volumes:
+      - .:/usr/src/app
+      - frontend_node_modules:/usr/src/app/node_modules
+
+volumes:
+  frontend_node_modules:
