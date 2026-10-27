@@ -71,6 +71,12 @@ jobs:
         if: failure()
         working-directory: ./todo-app
         run: |
+          echo "=== Compose status ==="
+          docker compose ps -a
+          echo "=== Mongo logs ==="
+          docker compose logs mongo
+          echo "=== Redis logs ==="
+          docker compose logs redis
           echo "=== Backend logs ==="
           docker compose logs backend
           echo "=== Frontend logs ==="
