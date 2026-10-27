@@ -1,6 +1,8 @@
 services:
   app:
     image: todo-frontend-dev
+    environment:
+      VITE_BACKEND_URL: /api
     volumes:
       - ./todo-frontend:/usr/src/app
       - todo_frontend_node_modules:/usr/src/app/node_modules
