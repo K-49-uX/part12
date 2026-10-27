@@ -1,0 +1,15 @@
+PS C:\Users\Student\Desktop\PART12> docker start -ai 80f62f3fbaaf
+root@80f62f3fbaaf:/# apt install -y nano
+Selecting previously unselected package nano.
+Unpacking nano (8.7.1-1ubuntu0.1) ...
+Setting up nano (8.7.1-1ubuntu0.1) ...
+debconf could not use the Dialog or Readline frontend and fell back to Teletype.
+
+root@80f62f3fbaaf:/# nano /usr/src/app/index.js
+[Entered console.log('Hello World') in Nano, saved with Ctrl+O and Enter, then exited with Ctrl+X.]
+
+root@80f62f3fbaaf:/# cat /usr/src/app/index.js
+console.log('Hello World')
+root@80f62f3fbaaf:/# exit
+exit
+PS C:\Users\Student\Desktop\PART12>
