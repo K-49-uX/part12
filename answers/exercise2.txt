@@ -1,0 +1,9 @@
+PS C:\Users\Student\Desktop\PART12> docker run -it ubuntu bash
+root@80f62f3fbaaf:/# mkdir -p /usr/src/app
+root@80f62f3fbaaf:/# touch /usr/src/app/index.js
+root@80f62f3fbaaf:/# ls -l /usr/src/app
+total 0
+-rw-r--r-- 1 root root 0 Oct 27 06:12 index.js
+root@80f62f3fbaaf:/# exit
+exit
+PS C:\Users\Student\Desktop\PART12>
