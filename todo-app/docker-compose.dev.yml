@@ -5,6 +5,46 @@ services:
       - ./todo-frontend:/usr/src/app
       - todo_frontend_node_modules:/usr/src/app/node_modules
 
+  server:
+    image: todo-backend-server
+    environment:
+      PORT: "3000"
+      REDIS_URL: redis://redis:6379
+      MONGO_URL: mongodb://the_username:the_password@mongo:27017/the_database?authSource=the_database
+    volumes:
+      - ./todo-backend:/usr/src/app
+      - todo_backend_node_modules:/usr/src/app/node_modules
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  mongo:
+    image: mongo:8.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./todo-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--username", "root", "--password", "example", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
   nginx:
     image: nginx:alpine
     volumes:
@@ -13,6 +53,9 @@ services:
       - "8080:80"
     depends_on:
       - app
+      - server
 
 volumes:
   todo_frontend_node_modules:
+  todo_backend_node_modules:
+  redis_data:
