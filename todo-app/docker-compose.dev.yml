@@ -1,0 +1,18 @@
+services:
+  app:
+    image: todo-frontend-dev
+    volumes:
+      - ./todo-frontend:/usr/src/app
+      - todo_frontend_node_modules:/usr/src/app/node_modules
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+volumes:
+  todo_frontend_node_modules:
