@@ -6,7 +6,9 @@ on:
 
 jobs:
   e2e-tests:
-    runs-on: ubuntu-latest
+    # ubuntu-latest has moved to Ubuntu 26.04 / Linux 6.19+, which MongoDB 8.0
+    # currently refuses to start on. Keep CI on the 24.04 runner for this stack.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     
     steps:
