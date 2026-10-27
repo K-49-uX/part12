@@ -1,0 +1,41 @@
+PowerShell> docker stop todo-mongo
+todo-mongo
+PowerShell> docker rm todo-mongo
+todo-mongo
+PowerShell> docker run -d --name todo-mongo -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example -e MONGO_INITDB_DATABASE=the_database --mount "type=bind,source=C:/Users/Student/Desktop/PART12/fs-containers/todo-app/todo-backend/mongo/mongo-init.js,target=/docker-entrypoint-initdb.d/mongo-init.js,readonly" mongo:8.0
+57cd9d5858559cac21b04f6a30e7fe874014fa017cb24fe4c1396550d0e42327
+
+PowerShell> docker exec -it todo-mongo mongosh -u root -p example --authenticationDatabase admin
+Using MongoDB: 8.0.34
+Using Mongosh: 2.14.0
+test> show dbs
+admin         100.00 KiB
+config         12.00 KiB
+local          40.00 KiB
+the_database   40.00 KiB
+
+test> use the_database
+switched to db the_database
+
+the_database> show collections
+todos
+
+the_database> db.todos.find({})
+[
+  { _id: ObjectId('6ae04cbe2dcf0f7141639c88'), text: 'Write code', done: true },
+  { _id: ObjectId('6ae04cbe2dcf0f7141639c89'), text: 'Learn about containers', done: false }
+]
+
+the_database> db.todos.insertOne({text: "Increase the number of tools in my tool belt", done: false})
+{ acknowledged: true, insertedId: ObjectId('6ae04ceea160ea5c465f4ea4') }
+
+the_database> db.todos.find({text: "Increase the number of tools in my tool belt"})
+[
+  {
+    _id: ObjectId('6ae04ceea160ea5c465f4ea4'),
+    text: 'Increase the number of tools in my tool belt',
+    done: false
+  }
+]
+
+the_database> exit
